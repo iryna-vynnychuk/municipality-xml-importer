@@ -16,6 +16,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ParserTest {
 
+    public static final int KOD_OBCE = 573060;
     @Mock
     private ObecService obecService;
 
@@ -31,7 +32,7 @@ class ParserTest {
         assertNotNull(input, "testfile.xml not found in src/test/resources");
 
         Obec mockObec = new Obec();
-        mockObec.setKodObce(573060);
+        mockObec.setKodObce(KOD_OBCE);
 
         when(obecService.getObecById(anyString())).thenReturn(mockObec);
 

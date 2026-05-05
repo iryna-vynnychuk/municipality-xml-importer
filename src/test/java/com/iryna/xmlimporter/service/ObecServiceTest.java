@@ -17,6 +17,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ObecServiceTest {
 
+    public static final int KOD_OBCE = 573060;
     @Mock
     private ObecRepository obecRepository;
 
@@ -26,28 +27,28 @@ class ObecServiceTest {
     @Test
     void shouldThrowExceptionWhenObecWithSameKodAlreadyExists() {
         Obec existingObec = new Obec();
-        existingObec.setKodObce(573060);
+        existingObec.setKodObce(KOD_OBCE);
         existingObec.setNazevObce("Kopidlno");
 
-        when(obecRepository.findByKodObce(573060))
+        when(obecRepository.findByKodObce(KOD_OBCE))
                 .thenReturn(Optional.of(existingObec));
 
         assertThrows(
                 InvalidObceDataException.class,() -> obecService.createAndSaveObce("Kopidlno", "573060")
         );
 
-        verify(obecRepository, times(1)).findByKodObce(573060);
+        verify(obecRepository, times(1)).findByKodObce(KOD_OBCE);
         verify(obecRepository, never()).save(any(Obec.class));
     }
 
     @Test
     void shouldSaveObecWhenKodDoesNotExist() throws Exception {
-        when(obecRepository.findByKodObce(573060))
+        when(obecRepository.findByKodObce(KOD_OBCE))
                 .thenReturn(Optional.empty());
 
         obecService.createAndSaveObce("Kopidlno", "573060");
 
-        verify(obecRepository, times(1)).findByKodObce(573060);
+        verify(obecRepository, times(1)).findByKodObce(KOD_OBCE);
         verify(obecRepository, times(1)).save(any(Obec.class));
     }
 }
